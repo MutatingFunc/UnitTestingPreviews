@@ -15,17 +15,21 @@ public struct _ArrayAssertion<A: Assertion>: Assertion {
                 }
             }
             .navigationTitle(condition ? "✓" : "✗")
+#if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+#endif
         } label: {
-            Text(Image(systemName: "diamond.inset.filled"))
-                .accessibilityLabel("Loop with \(assertions.count) iterations")
-                .foregroundColor(.purple)
-            Divider()
-            if let first = assertions.first {
-                first
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text("×\(assertions.count)")
+            HStack {
+                Text(Image(systemName: "diamond.inset.filled"))
+                    .accessibilityLabel("Loop with \(assertions.count) iterations")
                     .foregroundColor(.purple)
+                Divider()
+                if let first = assertions.first {
+                    first
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("×\(assertions.count)")
+                        .foregroundColor(.purple)
+                }
             }
         }.disabled(assertions.count == 0)
     }
@@ -34,9 +38,8 @@ public struct _ArrayAssertion<A: Assertion>: Assertion {
 struct _ArrayAssertion_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NavigationSplitView {
+            NavigationView {
                 _ArrayAssertion(assertions: [Assert(true, message: "Assert"), Assert(false, message: "Assert")])
-            } detail: {
                 Text("No selection")
             }
         }.previewLayout(.sizeThatFits)

@@ -7,11 +7,10 @@ public protocol TestCase: PreviewProvider {
 }
 public extension TestCase {
     static var previews: some View {
-        NavigationSplitView {
+        NavigationView {
             List {
                 tests
             }
-        } detail: {
             Text("No selection")
         }
     }
@@ -24,7 +23,7 @@ struct TestCase_Previews_Tests: TestCase, PreviewProvider {
         }
         
         func longDoof() async -> String {
-            try? await Task.sleep(for: .seconds(1))
+            try? await Task.sleep(nanoseconds: 1000000000)
             return "doof"
         }
         

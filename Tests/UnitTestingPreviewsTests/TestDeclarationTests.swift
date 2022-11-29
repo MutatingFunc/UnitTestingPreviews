@@ -9,7 +9,7 @@ struct TestCase_Previews_Tests: TestCase, PreviewProvider {
         }
         
         func longDoof() async -> String {
-            try? await Task.sleep(for: .seconds(1))
+            try? await Task.sleep(nanoseconds: 1000000000)
             return "doof"
         }
         

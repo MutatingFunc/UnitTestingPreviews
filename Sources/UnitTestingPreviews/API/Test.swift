@@ -15,11 +15,11 @@ public struct Test<Assertions: Assertion>: View {
             if let result {
                 result
             } else {
-                LabeledContent {
+                HStack {
+                    ProgressView("Running…")
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     Divider()
                     AssertionResultIcon(condition: nil)
-                } label: {
-                    ProgressView("Running…")
                 }.task {
                     result = await assertions()
                 }
