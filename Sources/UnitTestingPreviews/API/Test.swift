@@ -17,7 +17,7 @@ public struct Test<Assertions: Assertion>: View {
             } else {
                 LabeledContent {
                     Divider()
-                    _AssertionResultIcon(condition: nil)
+                    AssertionResultIcon(condition: nil)
                 } label: {
                     ProgressView("Running…")
                 }.task {
@@ -28,11 +28,11 @@ public struct Test<Assertions: Assertion>: View {
             HStack {
                 Text(title)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                _AssertionResultIcon(condition: result?.condition)
+                AssertionResultIcon(condition: result?.condition)
             }
         }.onAppear {
             if let result, !result.condition, !result.description.isEmpty {
-                print(result.description)
+                print("Test failed: ", title)
             }
         }
     }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct _AssertionResultIcon: View {
+struct AssertionResultIcon: View {
     var condition: Bool?
     var body: some View {
         Group {
@@ -20,14 +20,14 @@ struct _AssertionResultIcon: View {
 }
 
 
-struct _AssertionResultIcon_Previews: PreviewProvider {
+struct AssertionResultIcon_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            _AssertionResultIcon(condition: nil)
+            AssertionResultIcon(condition: nil)
                 .previewDisplayName("Nil")
-            _AssertionResultIcon(condition: true)
+            AssertionResultIcon(condition: true)
                 .previewDisplayName("True")
-            _AssertionResultIcon(condition: false)
+            AssertionResultIcon(condition: false)
                 .previewDisplayName("False")
         }.previewLayout(.sizeThatFits)
     }

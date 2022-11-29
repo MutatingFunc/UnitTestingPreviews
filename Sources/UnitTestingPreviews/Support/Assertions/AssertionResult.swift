@@ -9,13 +9,9 @@ public struct _AssertionResult<Condition: Assertion>: Assertion {
     public var body: some View {
         LabeledContent {
             Divider()
-            _AssertionResultIcon(condition: assertion.condition)
+            AssertionResultIcon(condition: assertion.condition)
         } label: {
             assertion
-        }.onAppear {
-            if assertion.condition == false {
-                print("Assertion failed: \(assertion.description)")
-            }
         }
     }
 }
