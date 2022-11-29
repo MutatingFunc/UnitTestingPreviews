@@ -31,7 +31,7 @@ public struct Test<Assertions: Assertion>: View {
                 AssertionResultIcon(condition: result?.condition)
             }
             .onAppear {
-                if let result, !result.condition, !result.description.isEmpty {
+                if let result, !result.condition {
                     print("Test failed: ", title)
                 }
             }
