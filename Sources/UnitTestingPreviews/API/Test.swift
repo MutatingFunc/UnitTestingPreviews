@@ -30,9 +30,10 @@ public struct Test<Assertions: Assertion>: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 AssertionResultIcon(condition: result?.condition)
             }
-        }.onAppear {
-            if let result, !result.condition, !result.description.isEmpty {
-                print("Test failed: ", title)
+            .onAppear {
+                if let result, !result.condition, !result.description.isEmpty {
+                    print("Test failed: ", title)
+                }
             }
         }
     }
