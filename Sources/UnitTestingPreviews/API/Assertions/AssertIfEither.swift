@@ -1,7 +1,7 @@
 import SwiftUI
 
 @discardableResult
-public func AssertIf<A1: Assertion, A2: Assertion>(_ condition: Bool, _ ifTrue: () -> A1, else ifFalse: () -> A2) -> some Assertion {
+public func AssertIf<A1: Assertion, A2: Assertion>(_ condition: Bool, @AssertionBuilder _ ifTrue: () -> A1, @AssertionBuilder else ifFalse: () -> A2) -> some Assertion {
     if condition {
         let ifTrue = Test.$recordClosure.withValue({_ in}, operation: ifTrue)
         return Test.record(_AssertIfEitherView<A1, A2>.a(ifTrue))
