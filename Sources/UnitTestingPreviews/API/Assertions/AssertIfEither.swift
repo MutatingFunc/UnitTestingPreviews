@@ -1,6 +1,17 @@
 import SwiftUI
 
-public enum _EitherAssertion<A: Assertion, B: Assertion>: Assertion {
+@discardableResult
+public func AssertIf<A1: Assertion, A2: Assertion>(_ condition: Bool, _ ifTrue: () -> A1, else ifFalse: () -> A2) -> some Assertion {
+    if condition {
+        let ifTrue = Test.$recordClosure.withValue({_ in}, operation: ifTrue)
+        return Test.record(_AssertIfEitherView<A1, A2>.a(ifTrue))
+    } else {
+        let ifFalse = Test.$recordClosure.withValue({_ in}, operation: ifFalse)
+        return Test.record(_AssertIfEitherView<A1, A2>.b(ifFalse))
+    }
+}
+
+public enum _AssertIfEitherView<A: Assertion, B: Assertion>: Assertion {
     case a(A)
     case b(B)
     
@@ -29,12 +40,12 @@ public enum _EitherAssertion<A: Assertion, B: Assertion>: Assertion {
     }
 }
 
-struct _EitherAssertion_Previews: PreviewProvider {
+struct AssertIfEither_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            _EitherAssertion<Assert, Assert>.a(Assert(true, message: "Assert"))
+            _AssertIfEitherView<AssertView, AssertView>.a(.init(true, message: "Assert"))
                 .previewDisplayName("a")
-            _EitherAssertion<Assert, Assert>.b(Assert(true, message: "Assert"))
+            _AssertIfEitherView<AssertView, AssertView>.b(.init(true, message: "Assert"))
                 .previewDisplayName("b")
         }.previewLayout(.sizeThatFits)
     }

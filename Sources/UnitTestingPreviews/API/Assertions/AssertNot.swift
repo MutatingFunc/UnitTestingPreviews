@@ -1,16 +1,29 @@
 import SwiftUI
 
-public struct AssertNot<Other: Assertion>: Assertion {
-    public var other: Other
-    public init(_ other: Other) {
+@discardableResult
+public func AssertNot<Other: Assertion>(_ other: @autoclosure () -> Other) -> some Assertion {
+    let record = Test.recordClosure
+    let other = Test.$recordClosure.withValue({record(AnyAssertNotView($0))}) {
+        other()
+    }
+    return AnyAssertNotView(other)
+}
+
+private func AnyAssertNotView<Other: Assertion>(_ other: Other) -> some Assertion {
+    AssertNotView(other)
+}
+
+struct AssertNotView<Other: Assertion>: Assertion {
+    var other: Other
+    init(_ other: Other) {
         self.other = other
     }
     
-    public var condition: Bool {
+    var condition: Bool {
         !other.condition
     }
-    public var description: String { " ¬ ( " + String(describing: other) + " ) " }
-    public var body: some View {
+    var description: String { " ¬ ( " + String(describing: other) + " ) " }
+    var body: some View {
         HStack {
             Text("¬")
                 .foregroundColor(.purple)

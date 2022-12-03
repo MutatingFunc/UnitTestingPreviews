@@ -1,17 +1,22 @@
 import SwiftUI
 
-public struct AssertContains<Value>: Assertion where Value: Collection, Value.Element: Equatable {
-    public var actual: Value, expectation: Value.Element
-    public init(_ actual: Value, _ expectation: Value.Element) {
+@discardableResult
+public func AssertContains<Value>(_ actual: Value, _ expectation: Value.Element) -> some Assertion where Value: Collection, Value.Element: Equatable {
+    Test.record(AssertContainsView(actual, expectation))
+}
+
+struct AssertContainsView<Value>: Assertion where Value: Collection, Value.Element: Equatable {
+    var actual: Value, expectation: Value.Element
+    init(_ actual: Value, _ expectation: Value.Element) {
         self.actual = actual
         self.expectation = expectation
     }
     
-    public var condition: Bool {
+    var condition: Bool {
         actual.contains(expectation)
     }
-    public var description: String { String(describing: actual) + " ∋ " + String(describing: expectation) }
-    public var body: some View {
+    var description: String { String(describing: actual) + " ∋ " + String(describing: expectation) }
+    var body: some View {
         Text(String(describing: actual))
         + Text(" ∋ ").foregroundColor(.purple)
         + Text(String(describing: expectation))

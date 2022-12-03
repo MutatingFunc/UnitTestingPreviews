@@ -2,10 +2,10 @@ import SwiftUI
 
 @resultBuilder
 public enum TestBuilder {
-    public static func buildPartialBlock<Assertions: Assertion>(first expression: Test<Assertions>) -> Test<Assertions> {
+    public static func buildPartialBlock<Test: TestSpec>(first expression: Test) -> Test {
         expression
     }
-    public static func buildPartialBlock<Tests: View, Assertions: Assertion>(accumulated: Tests, next: Test<Assertions>) -> _TupleTest<(Tests, Test<Assertions>)> {
+    public static func buildPartialBlock<Tests: View, Test: TestSpec>(accumulated: Tests, next: Test) -> _TupleTest<(Tests, Test)> {
         _TupleTest((accumulated, next))
     }
 }

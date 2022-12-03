@@ -1,14 +1,19 @@
 import SwiftUI
 
-public struct Assert: Assertion {
-    public var condition: Bool, message: String
-    public init(_ condition: Bool, message: String) {
+@discardableResult
+public func Assert(_ condition: Bool, message: String) -> some Assertion {
+    Test.record(AssertView(condition, message: message))
+}
+
+struct AssertView: Assertion {
+    var condition: Bool, message: String
+    init(_ condition: Bool, message: String) {
         self.condition = condition
         self.message = message
     }
     
-    public var description: String { message + " ? " }
-    public var body: some View {
+    var description: String { message + " ? " }
+    var body: some View {
         Text(message) + Text(" ? ").foregroundColor(.purple)
     }
 }

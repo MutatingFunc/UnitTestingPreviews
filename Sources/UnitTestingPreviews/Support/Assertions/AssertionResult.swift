@@ -1,25 +1,54 @@
 import SwiftUI
 
-public struct _AssertionResult<Condition: Assertion>: Assertion {
-    var assertion: Condition
-    public var condition: Bool {
-        assertion.condition
+public struct _AssertionResult<A: Assertion>: Assertion {
+    var assertion: A
+    init(_ assertion: A) {
+        self.assertion = assertion
     }
+    
+    public var condition: Bool { assertion.condition }
     public var description: String { assertion.description }
-    public var body: some View {
-        AssertionResultView(condition: condition) {
-            assertion
+    public var body: some View { AssertionResultView(assertion) }
+}
+
+struct AssertionResultView<Content: View>: View {
+    var condition: Bool?
+    var content: () -> Content
+    init(_ assertion: Content) where Content: Assertion {
+        self.condition = assertion.condition
+        self.content = { assertion }
+    }
+    init(condition: Bool?, @ViewBuilder content: @escaping () -> Content) {
+        self.condition = condition
+        self.content = content
+    }
+    
+    var body: some View {
+        HStack {
+            HStack {
+                content()
+            }.frame(maxWidth: .infinity, alignment: .leading)
+            Divider()
+            AssertionResultIcon(condition: condition)
         }
     }
 }
 
-struct _AssertionResult_Previews: PreviewProvider {
+struct AssertionResultView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            _AssertionResult(assertion: Assert(true, message: "Assert"))
-                .previewDisplayName("True")
-            _AssertionResult(assertion: Assert(false, message: "Assert"))
-                .previewDisplayName("False")
+            AssertionResultView(condition: true) {
+                Text("Assert")
+            }
+            .previewDisplayName("True")
+            AssertionResultView(condition: false) {
+                Text("Assert")
+            }
+            .previewDisplayName("False")
+            AssertionResultView(condition: nil) {
+                Text("Assert")
+            }
+            .previewDisplayName("nil")
         }.previewLayout(.sizeThatFits)
     }
 }
