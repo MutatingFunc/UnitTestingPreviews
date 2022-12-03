@@ -9,6 +9,15 @@ public func AssertNot<Other: Assertion>(_ other: @autoclosure () -> Other) -> so
     return AnyAssertNotView(other)
 }
 
+@discardableResult
+public func AssertNot<Other: Assertion>(@AssertionBuilder _ other: () -> _AssertionResult<Other>) -> some Assertion {
+    let record = Test.recordClosure
+    let other = Test.$recordClosure.withValue({record(AnyAssertNotView($0))}) {
+        other().assertion
+    }
+    return AnyAssertNotView(other)
+}
+
 private func AnyAssertNotView<Other: Assertion>(_ other: Other) -> some Assertion {
     AssertNotView(other)
 }

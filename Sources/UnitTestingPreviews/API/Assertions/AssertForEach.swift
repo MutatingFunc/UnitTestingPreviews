@@ -9,10 +9,10 @@ public func AssertForEach<C: Collection>(_ data: C, _ assertions: (C.Element) ->
 }
 
 @discardableResult
-public func AssertForEach<C: Collection, A: Assertion>(_ data: C, @AssertionBuilder _ assertion: (C.Element) -> A) -> some Assertion {
+public func AssertForEach<C: Collection, A: Assertion>(_ data: C, @AssertionBuilder _ assertion: (C.Element) -> _AssertionResult<A>) -> some Assertion {
     var results: [any Assertion] = []
     let view = Test.$recordClosure.withValue({results.append($0)}) {
-        let r = data.map(assertion)
+        let r = data.map(assertion).map(\.assertion)
         results = r
         return AssertForEachView(assertions: r)
     }

@@ -85,6 +85,16 @@ struct Test_Tests: TestCase, PreviewProvider {
             AssertForEach(0..<20) { i in
                 Assert(i%2==0, message: "Is \(i) even")
             }
+            AssertNot(
+                AssertIf(result.count > 2) {
+                    Assert(true, message: "Is doof")
+                }
+            )
+            AssertNot {
+                for i in 0..<20 {
+                    Assert(i%2==0, message: "Is \(i) even")
+                }
+            }
         }
         Test(title: "Doofer longDoof() returns doof") {
             let doofer = Doofer()

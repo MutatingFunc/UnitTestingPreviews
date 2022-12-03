@@ -78,6 +78,16 @@ struct BuilderTest_Tests: TestCase, PreviewProvider {
             for i in 0..<20 {
                 Assert(i%2==0, message: "Is \(i) even")
             }
+            AssertNot(
+                AssertIf(result.count > 2) {
+                    Assert(true, message: "Is doof")
+                }
+            )
+            AssertNot {
+                for i in 0..<20 {
+                    Assert(i%2==0, message: "Is \(i) even")
+                }
+            }
         }
         BuilderTest(title: "Doofer longDoof() returns doof") {
             let doofer = Doofer()
