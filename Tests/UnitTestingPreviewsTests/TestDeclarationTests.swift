@@ -19,7 +19,8 @@ struct TestCase_Previews_Tests: TestCase, PreviewProvider {
     }
 
     static var tests: some TestSpec  {
-        Test(title: "Doofer doof() returns doof") {
+        let _ = "doof"
+        BuilderTest(title: "Doofer doof() returns doof") {
             let doofer = Doofer()
             
             let result = doofer.doof()
@@ -28,7 +29,6 @@ struct TestCase_Previews_Tests: TestCase, PreviewProvider {
             AssertEqual(result, "doofette")
             AssertGreaterThan(result, "dooa")
             AssertGreaterThanOrEqualTo(result, "doof")
-            AssertContains(result, "d")
             AssertContains(result, "d")
             AssertNot(AssertContains(result, "a"))
             AssertContains(["doof", "nork"], result)
@@ -44,7 +44,7 @@ struct TestCase_Previews_Tests: TestCase, PreviewProvider {
                 Assert(i%2==0, message: "Is \(i) even")
             }
         }
-        Test(title: "Doofer longDoof() returns doof") {
+        BuilderTest(title: "Doofer longDoof() returns doof") {
             let doofer = Doofer()
             
             let result = await doofer.longDoof()
