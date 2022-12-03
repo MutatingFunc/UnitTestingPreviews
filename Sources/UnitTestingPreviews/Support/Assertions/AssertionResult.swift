@@ -7,11 +7,8 @@ public struct _AssertionResult<Condition: Assertion>: Assertion {
     }
     public var description: String { assertion.description }
     public var body: some View {
-        HStack {
+        AssertionResultView(condition: condition) {
             assertion
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Divider()
-            AssertionResultIcon(condition: assertion.condition)
         }
     }
 }
