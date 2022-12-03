@@ -18,7 +18,7 @@ struct TestCase_Previews_Tests: TestCase, PreviewProvider {
         }
     }
 
-    static var tests: some View  {
+    static var tests: some TestSpec  {
         Test(title: "Doofer doof() returns doof") {
             let doofer = Doofer()
             

@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct Test<Assertions: Assertion>: View {
+public struct Test<Assertions: Assertion>: TestSpec {
     var title: String
     @AssertionBuilder var assertions: () async -> Assertions
     @State private var result: Assertions? = nil
