@@ -2,19 +2,17 @@ import SwiftUI
 
 @discardableResult
 public func AssertNot<Other: Assertion>(_ other: @autoclosure () -> Other) -> some Assertion {
-    let record = Test.recordClosure
-    let other = Test.$recordClosure.withValue({record(AnyAssertNotView($0))}) {
+    AssertNot {
         other()
     }
-    return AnyAssertNotView(other)
 }
 
 @discardableResult
 public func AssertNot<Other: Assertion>(@AssertionBuilder _ other: () -> _AssertionResult<Other>) -> some Assertion {
-    let record = Test.recordClosure
-    let other = Test.$recordClosure.withValue({record(AnyAssertNotView($0))}) {
+    let other = Test.$recordClosure.withValue({ _ in }) {
         other().assertion
     }
+    Test.record(AnyAssertNotView(other))
     return AnyAssertNotView(other)
 }
 
@@ -56,6 +54,10 @@ struct AssertNot_Previews: PreviewProvider {
                 .previewDisplayName("GreaterThan")
             AssertNot(AssertContains([0], 0))
                 .previewDisplayName("Contains")
+            AssertNot(AssertForEach([0, 1]) { AssertEqual($0, 0) })
+                .previewDisplayName("ForEach")
+            AssertNot(AssertIf(true) { Assert(true, message: "Assert") })
+                .previewDisplayName("If")
         }.previewLayout(.sizeThatFits)
     }
 }
