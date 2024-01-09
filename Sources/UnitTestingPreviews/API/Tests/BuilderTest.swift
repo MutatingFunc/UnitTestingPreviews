@@ -75,7 +75,7 @@ struct BuilderTest_Tests: TestCase, PreviewProvider {
             if result.count > 4 {
                 Assert(true, message: "Is doof")
             }
-            for i in 0..<20 {
+            AssertForEach(0..<20) { i in
                 Assert(i%2==0, message: "Is \(i) even")
             }
             AssertNot(
@@ -84,7 +84,7 @@ struct BuilderTest_Tests: TestCase, PreviewProvider {
                 }
             )
             AssertNot {
-                for i in 0..<20 {
+                AssertForEach(0..<20) { i in
                     Assert(i%2==0, message: "Is \(i) even")
                 }
             }
