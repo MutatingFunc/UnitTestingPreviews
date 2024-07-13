@@ -91,7 +91,7 @@ struct Test_Tests: TestCase, PreviewProvider {
                 }
             )
             AssertNot {
-                for i in 0..<20 {
+                AssertForEach(0..<20) { i in
                     Assert(i%2==0, message: "Is \(i) even")
                 }
             }
